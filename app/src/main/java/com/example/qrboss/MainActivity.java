@@ -7,8 +7,10 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -45,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (result!=null){
+                            Intent intent = new Intent(MainActivity.this,ResultPage.class);
+                            Log.d("hfxt",result.getResultMetadata().values().toString());
+                            intent.putExtra("result",result.getText());
+                            startActivity(intent);
+                        }
                         Toast.makeText(MainActivity.this, ""+result.getText(), Toast.LENGTH_SHORT).show();
                     }
                 });
