@@ -1,2 +1,2 @@
 # QR-Boss
-An Qr Code Reader App using  ZXing Library 
+A Qr Code Reader App using  ZXing Library 
