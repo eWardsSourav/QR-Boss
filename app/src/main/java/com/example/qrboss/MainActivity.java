@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         scannerView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this,scannerView);
+        codeScanner.setScanMode(ScanMode.SINGLE);
+        codeScanner.setFlashEnabled(true);
 
         int perm = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA);
         if (perm != PackageManager.PERMISSION_GRANTED){
