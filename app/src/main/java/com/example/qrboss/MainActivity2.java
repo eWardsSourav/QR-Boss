@@ -23,39 +23,45 @@ import androidmads.library.qrgenearator.QRGEncoder;
 public class MainActivity2 extends AppCompatActivity {
     EditText editText;
     Button btn;
-    ImageView imageView;
+
+    private Bitmap bitmap;
+    private QRGEncoder qrgEncoder;
+    private EditText edtValue;
+    private ImageView qrImage;
+    private String inputValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        editText = findViewById(R.id.edittext);
+        edtValue = findViewById(R.id.edittext);
         btn = findViewById(R.id.btn);
-        imageView = findViewById(R.id.img);
-
-        String input = editText.getText().toString();
-        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display display = manager.getDefaultDisplay();
-        Point point = new Point();
-        display.getSize(point);
-        int width = point.x;
-        int height = point.y;
-        int smallerDimension = Math.min(width, height);
-        smallerDimension = smallerDimension * 3 / 4;
-        int finalSmallerDimension = smallerDimension;
+        qrImage = findViewById(R.id.img);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QRGEncoder qrgEncoder = new QRGEncoder(input,null, QRGContents.Type.TEXT, finalSmallerDimension);
-                qrgEncoder.setColorBlack(Color.RED);
-                qrgEncoder.setColorWhite(Color.BLUE);
-                try {
-                    // Getting QR-Code as Bitmap
-                  Bitmap bitmap = qrgEncoder.getBitmap();
-                    // Setting Bitmap to ImageView
-                    imageView.setImageBitmap(bitmap);
-                } catch (Exception e) {
-                    Log.v("TAG", e.toString());
+                inputValue = edtValue.getText().toString().trim();
+                if (inputValue.length() > 0) {
+                    WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+                    Display display = manager.getDefaultDisplay();
+                    Point point = new Point();
+                    display.getSize(point);
+                    int width = point.x;
+                    int height = point.y;
+                    int smallerDimension = Math.min(width, height);
+                    smallerDimension = smallerDimension * 3 / 4;
+
+                    qrgEncoder = new QRGEncoder(inputValue, null, QRGContents.Type.TEXT, smallerDimension);
+                    qrgEncoder.setColorBlack(Color.BLACK);
+                    qrgEncoder.setColorWhite(Color.WHITE);
+                    try {
+                        bitmap = qrgEncoder.getBitmap();
+                        qrImage.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    edtValue.setError("Error");
                 }
             }
         });
